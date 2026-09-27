@@ -2,21 +2,23 @@
 
 import { useEffect, useState } from "react";
 
-const KEY = "pakcik-social-toast-light";
+const KEY = "pakcik-social-toast-light-v2";
 
 export function SafetyToast() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (!localStorage.getItem(KEY)) {
-      const t = setTimeout(() => setShow(true), 800); // Muncul sedikit lebih lambat agar tidak membebani loading awal
+    // BAGIAN YANG DIUBAH: Menggunakan sessionStorage agar muncul lagi saat aplikasi dibuka ulang
+    if (!sessionStorage.getItem(KEY)) {
+      const t = setTimeout(() => setShow(true), 800);
       return () => clearTimeout(t);
     }
   }, []);
 
   function dismiss() {
-    localStorage.setItem(KEY, "1");
+    // BAGIAN YANG DIUBAH: Menggunakan sessionStorage
+    sessionStorage.setItem(KEY, "1");
     setShow(false);
   }
 
@@ -49,9 +51,9 @@ export function SafetyToast() {
             🎵 TikTok
           </a>
 
-          {/* LINK YOUTUBE BARU */}
+          {/* LINK YOUTUBE */}
           <a
-            href="https://youtube.com/@pakcik_kumar868?si=jwcEiVgWowjaBy86" 
+            href="https://youtube.com/@pakcik_kumar868?si=jwcEiVgWowjaBy86"
             target="_blank"
             rel="noreferrer"
             className="rounded bg-red-600 px-3 py-1.5 font-medium hover:bg-red-500 transition-colors flex items-center gap-1.5"
