@@ -6,7 +6,7 @@
       />
     </p>
 
-# <p align="center">TBCPL</p>
+# <p align="center">PAKCIK</p>
 
 Source Code of one of the most Demanding Indexing Site
 
@@ -23,4 +23,4 @@ we'll take a look if its good then sure..
 
 ## Socials
 
-[Discord](https://discord.com/invite/BPxzYVY5UU)
+[Discord](https://discord.gg/NbUMK9AUh)
