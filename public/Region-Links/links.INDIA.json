@@ -25,7 +25,7 @@
         },
         {
           "name": "Bollyflix",
-          "url": "https://bollyflix.af/",
+          "url": "https://new.bollyflix.vote/",
           "logo": "./logo/movies_shows/Bollyflix-movies.png",
           "enabled": true
         },
@@ -37,7 +37,7 @@
         },
         {
           "name": "MovieRulz",
-          "url": "https://www.5movierulz.forex/",
+          "url": "https://www.5movierulz.works/",
           "logo": "./logo/movies_shows/movierulz.png",
           "enabled": true
         },
@@ -61,13 +61,13 @@
         },
         {
           "name": "KMMovies",
-          "url": "https://kmmovies.cyou/",
+          "url": "https://kmmovies.baby/",
           "logo": "./logo/movies_shows/kmmovies.png",
           "enabled": true
         },
         {
           "name": "hdhub4u",
-          "url": "https://new6.hdhub4u.cl/",
+          "url": "https://new2.hdhub4u.free/",
           "logo": "./logo/movies_shows/hdhub4u.png",
           "enabled": true
         },
@@ -141,7 +141,7 @@
       "sites": [
         {
           "name": "Kartoonsme",
-          "url": "https://kartoons.me/home",
+          "url": "https://kartoons.to/",
           "logo": "./logo/anime/kartoons.png",
           "status": "trusted",
           "enabled": true
@@ -278,7 +278,7 @@
         },
         {
           "name": "Shudder",
-          "url": "https://www.shudder.com/",
+          "url": "https://watch.shudder.com/",
           "logo": "./logo/paid_apps/shudder.png",
           "enabled": true
         },

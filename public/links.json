@@ -6,7 +6,7 @@
       "sites": [
         {
           "name": "1Shows",
-          "url": "https://www.1shows.bz/",
+          "url": "https://www.1shows.org/",
           "logo": "./logo/movies_shows/1shows.png",
           "enabled": true,
           "status": "trusted"
@@ -142,13 +142,13 @@
         },
         {
           "name": "Flixway",
-          "url": "https://flixway.ru/",
+          "url": "https://flixway.to/",
           "logo": "./logo/movies_shows/flixway.png",
           "enabled": true
         },
         {
           "name": "StreamingUnity",
-          "url": "https://streamingunity.win/",
+          "url": "https://streamingunity.fun/",
           "logo": "./logo/movies_shows/streamingcommunityz.png",
           "enabled": true
         }
@@ -435,7 +435,7 @@
         },
         {
           "name": "Shudder",
-          "url": "https://www.shudder.com/",
+          "url": "https://watch.shudder.com/",
           "logo": "./logo/paid_apps/shudder.png",
           "enabled": true
         },
