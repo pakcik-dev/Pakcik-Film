@@ -12,6 +12,7 @@ import { SafetyToast } from "@/components/safety-toast";
 import { CommandPaletteProvider } from "@/components/command-palette";
 import { RegionContextProvider } from "@/components/region-context";
 import { getRegions, buildSearchIndex, DEFAULT_REGION_CODE } from "@/lib/data";
+import { BottomNav } from "@/components/bottom-nav"; // <--- 1. TAMBAHKAN IMPORT INI
 
 const geistSans = Inter({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = JetBrains_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
     "free tv shows",
     "anime streaming",
     "live tv",
+    "dongha streaming",
     "sports streams",
     "fmhy alternative",
     "best streaming list",
@@ -101,12 +103,13 @@ export default async function RootLayout({
           <SiteShaderBackground />
           <RegionContextProvider regions={regions} current={DEFAULT_REGION_CODE}>
             <CommandPaletteProvider initialIndex={searchIndex} regions={regions}>
-              <div className="relative z-10">
+              <div className="relative z-10 pb-16 md:pb-0">
                 <GoFundMeBanner />
                 <Navbar />
                 {children}
                 <Footer />
                 <SafetyToast />
+                <BottomNav /> {/* <--- 2. SISIPKAN DI SINI */}
               </div>
             </CommandPaletteProvider>
           </RegionContextProvider>
