@@ -1,22 +1,52 @@
 "use client";
 
-import { Settings, UserCircle2, Crown, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { Settings, UserCircle2, Crown, ChevronRight, LogIn, Clock } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
+  // Simulasi status login (Nanti kita ganti dengan database asli)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
-    <div className="min-h-screen bg-black text-white p-4 font-sans pb-24">
-      {/* HEADER: Foto Profil, Nama Akun, dan Icon Setting */}
+    <div className="min-h-screen bg-black text-white p-4 font-sans pb-32">
+      {/* HEADER: Tampilan Berubah Tergantung Status Login */}
       <div className="flex items-center justify-between mt-4">
-        <div className="flex items-center gap-4">
-          <UserCircle2 size={50} className="text-blue-500" />
-          <h1 className="text-xl font-bold">user19138048750</h1>
-        </div>
-        {/* Tombol ke Halaman Pengaturan */}
+        {isLoggedIn ? (
+          <div className="flex items-center gap-4">
+            <UserCircle2 size={50} className="text-blue-500" />
+            <div>
+              <h1 className="text-xl font-bold">Bayu Kumara</h1>
+              <p className="text-xs text-gray-400">User ID: 19138048750</p>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center">
+              <UserCircle2 size={30} className="text-gray-500" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold">Belum Login</h1>
+              <p className="text-xs text-gray-400">Login untuk menyimpan data</p>
+            </div>
+          </div>
+        )}
+
         <Link href="/settings">
           <Settings size={24} className="text-gray-300 hover:text-white" />
         </Link>
       </div>
+
+      {/* TOMBOL LOGIN (Muncul jika belum login) */}
+      {!isLoggedIn && (
+        <button 
+          onClick={() => setIsLoggedIn(true)}
+          className="mt-6 w-full flex items-center justify-center gap-2 bg-white text-black font-bold py-3 rounded-full hover:bg-gray-200 transition"
+        >
+          <LogIn size={20} />
+          Masuk dengan Google
+        </button>
+      )}
 
       {/* BANNER VIP */}
       <Link href="/vip">
@@ -32,23 +62,21 @@ export default function ProfilePage() {
         </div>
       </Link>
 
-      {/* HISTORI TONTONAN */}
+      {/* HISTORI: Terakhir Dikunjungi */}
       <div className="mt-8">
-        <h3 className="text-lg font-bold text-yellow-500 mb-4">Histori</h3>
-        <div className="flex gap-4 border-b border-gray-800 pb-2">
-          <button className="text-yellow-500 font-semibold border-b-2 border-yellow-500 px-2 pb-1">SEMUA</button>
-          <button className="text-gray-400 font-semibold px-2 pb-1">Sedang Diproses</button>
-          <button className="text-gray-400 font-semibold px-2 pb-1">Selesai</button>
+        <div className="flex items-center gap-2 mb-4">
+          <Clock size={20} className="text-yellow-500" />
+          <h3 className="text-lg font-bold text-yellow-500">Terakhir Dikunjungi</h3>
         </div>
 
-        {/* List Histori */}
-        <div className="mt-4 flex gap-4">
-          <div className="w-24 h-32 bg-gray-800 rounded-md flex-shrink-0 animate-pulse"></div>
-          <div>
-            <h4 className="font-bold text-md">Pembunuh Jadi Gadis Desa 1</h4>
-            <p className="text-xs text-gray-400 mt-1">Pemeran Utama Wanita Kuat...</p>
-            <p className="text-xs text-gray-500 mt-2">Ep.3 / Ep.152</p>
-          </div>
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
+          {/* Item Dummy Histori */}
+          {["Anichin", "1Shows", "Mynimeku"].map((site) => (
+            <div key={site} className="min-w-[100px] bg-gray-900 border border-gray-800 rounded-xl p-3 flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-800 transition">
+              <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-xs text-gray-400">Logo</div>
+              <span className="text-xs font-semibold text-gray-300">{site}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

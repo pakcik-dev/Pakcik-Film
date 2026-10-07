@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Compass, Gift, Bookmark, User } from "lucide-react";
+import { Home, Crown, User } from "lucide-react";
 
 export function BottomNav() {
   const pathname = usePathname();
 
   const navItems = [
     { label: "Cuplikan", href: "/", icon: Home },
-    { label: "Temukan", href: "/#categories", icon: Compass },
-    { label: "Hadiah", href: "/vip", icon: Gift, badge: "Tarik" },
-    { label: "Daftar Saya", href: "/#favorites", icon: Bookmark },
+    { label: "VIP", href: "/vip", icon: Crown, badge: "Promo" },
     { label: "Saya", href: "/me", icon: User },
   ];
 
@@ -26,16 +24,16 @@ export function BottomNav() {
             <Link
               key={item.label}
               href={item.href}
-              className={`relative flex flex-col items-center justify-center py-1 px-3 transition-colors ${
+              className={`relative flex flex-col items-center justify-center py-1 px-5 transition-colors ${
                 isActive ? "text-yellow-400 font-semibold" : "text-gray-400 hover:text-gray-200"
               }`}
             >
               {item.badge && (
-                <span className="absolute -top-1 right-2 text-[9px] font-bold bg-yellow-400 text-black px-1.5 py-0.2 rounded-full leading-tight shadow">
+                <span className="absolute -top-1 right-2 text-[9px] font-bold bg-yellow-400 text-black px-1.5 py-0.5 rounded-full leading-tight shadow">
                   {item.badge}
                 </span>
               )}
-              <Icon size={20} className="mb-0.5" />
+              <Icon size={22} className="mb-1" />
               <span className="text-[10px] tracking-tight">{item.label}</span>
             </Link>
           );

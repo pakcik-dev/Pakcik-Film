@@ -103,7 +103,7 @@ export default async function RootLayout({
           <SiteShaderBackground />
           <RegionContextProvider regions={regions} current={DEFAULT_REGION_CODE}>
             <CommandPaletteProvider initialIndex={searchIndex} regions={regions}>
-              <div className="relative z-10 pb-16 md:pb-0">
+              <div className="relative z-10 pb-28 md:pb-0">
                 <GoFundMeBanner />
                 <Navbar />
                 {children}
