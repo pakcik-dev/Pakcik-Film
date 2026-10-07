@@ -1,23 +1,43 @@
 "use client";
 
-import { useState } from "react";
-import { Settings, UserCircle2, Crown, ChevronRight, LogIn, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Settings, UserCircle2, Crown, ChevronRight, LogIn, Clock, X } from "lucide-react";
 import Link from "next/link";
 
 export default function ProfilePage() {
-  // Simulasi status login (Nanti kita ganti dengan database asli)
+  const [userName, setUserName] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [tempName, setTempName] = useState("");
+
+  // Cek apakah user sudah login sebelumnya
+  useEffect(() => {
+    const savedName = localStorage.getItem("pakcik_user");
+    if (savedName) {
+      setUserName(savedName);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  // Fungsi simpan nama
+  const handleSaveName = () => {
+    if (tempName.trim() === "") return;
+    localStorage.setItem("pakcik_user", tempName);
+    setUserName(tempName);
+    setIsLoggedIn(true);
+    setShowLoginModal(false);
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 font-sans pb-32">
-      {/* HEADER: Tampilan Berubah Tergantung Status Login */}
+    <div className="min-h-screen bg-black text-white p-4 font-sans pb-32 relative">
+      {/* HEADER */}
       <div className="flex items-center justify-between mt-4">
         {isLoggedIn ? (
           <div className="flex items-center gap-4">
             <UserCircle2 size={50} className="text-blue-500" />
             <div>
-              <h1 className="text-xl font-bold">Bayu Kumara</h1>
-              <p className="text-xs text-gray-400">User ID: 19138048750</p>
+              <h1 className="text-xl font-bold">{userName}</h1>
+              <p className="text-xs text-gray-400">User ID: {Math.floor(Math.random() * 1000000000)}</p>
             </div>
           </div>
         ) : (
@@ -37,10 +57,10 @@ export default function ProfilePage() {
         </Link>
       </div>
 
-      {/* TOMBOL LOGIN (Muncul jika belum login) */}
+      {/* TOMBOL LOGIN */}
       {!isLoggedIn && (
         <button 
-          onClick={() => setIsLoggedIn(true)}
+          onClick={() => setShowLoginModal(true)}
           className="mt-6 w-full flex items-center justify-center gap-2 bg-white text-black font-bold py-3 rounded-full hover:bg-gray-200 transition"
         >
           <LogIn size={20} />
@@ -50,7 +70,7 @@ export default function ProfilePage() {
 
       {/* BANNER VIP */}
       <Link href="/vip">
-        <div className="mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-4 flex items-center justify-between cursor-pointer transform transition hover:scale-[1.02]">
+        <div className="mt-8 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-4 flex items-center justify-between cursor-pointer">
           <div>
             <div className="flex items-center gap-2">
               <Crown size={20} className="text-yellow-300" />
@@ -62,23 +82,43 @@ export default function ProfilePage() {
         </div>
       </Link>
 
-      {/* HISTORI: Terakhir Dikunjungi */}
+      {/* HISTORI KOSONG */}
       <div className="mt-8">
         <div className="flex items-center gap-2 mb-4">
           <Clock size={20} className="text-yellow-500" />
-          <h3 className="text-lg font-bold text-yellow-500">Terakhir Dikunjungi</h3>
+          <h3 className="text-lg font-bold text-yellow-500">Baru Saja Dilihat</h3>
         </div>
-
-        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
-          {/* Item Dummy Histori */}
-          {["Anichin", "1Shows", "Mynimeku"].map((site) => (
-            <div key={site} className="min-w-[100px] bg-gray-900 border border-gray-800 rounded-xl p-3 flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-800 transition">
-              <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-xs text-gray-400">Logo</div>
-              <span className="text-xs font-semibold text-gray-300">{site}</span>
-            </div>
-          ))}
+        <div className="w-full p-8 border border-gray-800 rounded-xl flex flex-col items-center justify-center text-gray-500">
+          <Clock size={30} className="mb-2 opacity-50" />
+          <p className="text-sm">Belum ada histori tontonan</p>
         </div>
       </div>
+
+      {/* POP-UP BUAT NAMA (Simulasi Login) */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-gray-900 w-full max-w-sm rounded-2xl p-6 border border-gray-800 animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold">Buat Nama Pengguna</h2>
+              <button onClick={() => setShowLoginModal(false)}><X size={20} className="text-gray-400" /></button>
+            </div>
+            <p className="text-xs text-gray-400 mb-4">Akun Google berhasil ditautkan. Silakan buat nama tampilan Anda.</p>
+            <input 
+              type="text" 
+              placeholder="Masukkan nama..."
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white mb-4 outline-none focus:border-blue-500"
+              value={tempName}
+              onChange={(e) => setTempName(e.target.value)}
+            />
+            <button 
+              onClick={handleSaveName}
+              className="w-full bg-blue-600 hover:bg-blue-700 font-bold py-3 rounded-lg transition"
+            >
+              Selesai
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
