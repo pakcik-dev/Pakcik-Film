@@ -160,10 +160,6 @@ export function SiteCard({ site, categoryId }: Props) {
         )}
       </div>
 
-      <div className="z-10 flex max-w-full items-center gap-1 truncate text-[10px] text-[var(--fg-muted)]">
-        <ExternalLink size={9} className="shrink-0" />
-        <span className="truncate">{host}</span>
-      </div>
     </a>
   );
 }

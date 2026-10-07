@@ -285,8 +285,35 @@
         }
       ]
     },
-    {
-      "id": "livetv",
+{
+      "id": "donghua",
+      "name": "Donghua",
+      "sites": [
+        {
+          "name": "Anichin",
+          "url": "https://anichin.moe/",
+          "logo": "./logo/donghua/anichin.png",
+          "enabled": true,
+          "status": "new"
+        },
+        {
+          "name": "Mynimeku",
+          "url": "https://www.mynimeku.com/series/yu-ling-shi/",
+          "logo": "./logo/donghua/mynimeku.png",
+          "enabled": true,
+          "status": "new"
+        },
+        {
+          "name": "Animekhor",
+          "url": "https://animekhor.org/anime/b-king/",
+          "logo": "./logo/donghua/animekhor.png",
+          "enabled": true,
+        "status": "new"
+      }
+    ]
+  },
+  {
+    "id": "livetv",
       "name": "Live TV & Sports",
       "sites": [
         {
