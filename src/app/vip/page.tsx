@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Ban, Lock, Shirt, CheckCircle2, QrCode, Wallet, CreditCard } from "lucide-react";
+import { ArrowLeft, Ban, Lock, Shirt, CheckCircle2, QrCode, Wallet, ExternalLink, X } from "lucide-react";
 import Link from "next/link";
 
 export default function VipPage() {
@@ -15,6 +15,19 @@ export default function VipPage() {
     { id: "3months", duration: "per 3 bulan", price: "Rp 85.000", originalPrice: "Rp 100.000", badge: "15% off" },
     { id: "year", duration: "per tahun", price: "Rp 230.000", originalPrice: "Rp 280.000", badge: "20% off" },
   ];
+
+  const appLinks = [
+    { name: "ShopeePay", url: "shopeepay://", color: "bg-orange-600" },
+    { name: "GoPay", url: "gopay://", color: "bg-blue-600" },
+    { name: "DANA", url: "dana://", color: "bg-sky-500" },
+    { name: "OVO", url: "ovo://", color: "bg-purple-600" },
+    { name: "BCA Mobile", url: "bca://", color: "bg-blue-800" },
+    { name: "Brimo (BRI)", url: "brimo://", color: "bg-blue-700" },
+  ];
+
+  const openApp = (url: string) => {
+    window.location.href = url;
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-4 font-sans pb-32">
@@ -58,27 +71,27 @@ export default function VipPage() {
           <div className="flex items-center gap-3">
             <QrCode size={22} className="text-purple-400" />
             <div>
-              <p className="text-sm font-bold">QRIS (All E-Wallet & Bank)</p>
-              <p className="text-[10px] text-gray-400">GoPay, OVO, DANA, ShopeePay, BCA, dll</p>
+              <p className="text-sm font-bold">QRIS Official PAKCIK MEDIA</p>
+              <p className="text-[10px] text-gray-400">Scan QRIS All E-Wallet & Bank</p>
             </div>
           </div>
           {paymentMethod === "qris" && <CheckCircle2 size={18} className="text-purple-400" />}
         </div>
 
         <div 
-          onClick={() => setPaymentMethod("gopay")}
+          onClick={() => setPaymentMethod("apps")}
           className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer ${
-            paymentMethod === "gopay" ? "border-purple-500 bg-purple-950/30" : "border-gray-800 bg-gray-900"
+            paymentMethod === "apps" ? "border-purple-500 bg-purple-950/30" : "border-gray-800 bg-gray-900"
           }`}
         >
           <div className="flex items-center gap-3">
             <Wallet size={22} className="text-blue-400" />
             <div>
-              <p className="text-sm font-bold">Transfer Virtual Account</p>
-              <p className="text-[10px] text-gray-400">BCA, Mandiri, BRI, BNI</p>
+              <p className="text-sm font-bold">Buka Langsung Aplikasi Pembayaran</p>
+              <p className="text-[10px] text-gray-400">ShopeePay, GoPay, DANA, OVO, BCA, BRI</p>
             </div>
           </div>
-          {paymentMethod === "gopay" && <CheckCircle2 size={18} className="text-purple-400" />}
+          {paymentMethod === "apps" && <CheckCircle2 size={18} className="text-purple-400" />}
         </div>
       </div>
 
@@ -89,35 +102,49 @@ export default function VipPage() {
         Bayar Sekarang
       </button>
 
-      {/* POP-UP INSTRUKSI / INSTRUMEN BAYAR (Siap disambung ke Midtrans API) */}
+      {/* POP-UP PEMBAYARAN & DEEP LINK */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-900 w-full max-w-sm rounded-2xl p-6 border border-gray-800 flex flex-col items-center text-center">
+          <div className="bg-gray-900 w-full max-w-sm rounded-2xl p-5 border border-gray-800 flex flex-col items-center text-center max-h-[90vh] overflow-y-auto relative">
+            <button 
+              onClick={() => setShowPaymentModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+            >
+              <X size={20} />
+            </button>
+
             <h2 className="text-lg font-bold text-white mb-2">Instruksi Pembayaran</h2>
-            <p className="text-xs text-gray-400 mb-4">
-              {paymentMethod === "qris" ? "Scan Kode QRIS di bawah menggunakan E-Wallet Anda:" : "Transfer ke Virtual Account berikut:"}
-            </p>
 
             {paymentMethod === "qris" ? (
-              <div className="bg-white p-4 rounded-xl mb-4">
-                <div className="w-48 h-48 bg-gray-200 rounded flex items-center justify-center text-black font-bold text-xs text-center p-2 border-2 border-dashed border-gray-400">
-                  [ Kode QRIS Midtrans/Xendit Akan Muncul Di Sini ]
+              <>
+                <p className="text-xs text-gray-400 mb-3">Scan atau screenshot QRIS berikut di aplikasi pilihanmu:</p>
+                <div className="bg-white p-2 rounded-xl mb-4 max-w-[240px]">
+                  <img src="/qris.jpg" alt="QRIS Pakcik Media" className="w-full h-auto rounded-lg" />
                 </div>
-              </div>
+              </>
             ) : (
-              <div className="w-full bg-gray-800 p-3 rounded-xl mb-4 text-left">
-                <p className="text-[10px] text-gray-400">Nomor Virtual Account BCA:</p>
-                <p className="text-lg font-mono font-bold text-yellow-400">880123918239182</p>
-              </div>
+              <>
+                <p className="text-xs text-gray-400 mb-4">Pilih aplikasi pembayaran untuk langsung beralih transaksi:</p>
+                <div className="grid grid-cols-2 gap-2 w-full mb-4">
+                  {appLinks.map((app) => (
+                    <button
+                      key={app.name}
+                      onClick={() => openApp(app.url)}
+                      className={`${app.color} text-white font-semibold py-2.5 px-3 rounded-xl text-xs flex items-center justify-between hover:opacity-90 transition`}
+                    >
+                      <span>{app.name}</span>
+                      <ExternalLink size={14} />
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
-
-            <p className="text-[10px] text-gray-500 mb-6">Sistem akan memverifikasi pembayaran secara otomatis setelah Anda mentransfer.</p>
 
             <button 
               onClick={() => setShowPaymentModal(false)}
-              className="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-full text-xs"
+              className="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-full text-xs mt-2"
             >
-              Tutup / Batalkan
+              Tutup
             </button>
           </div>
         </div>

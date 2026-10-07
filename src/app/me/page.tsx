@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Settings, UserCircle2, Crown, ChevronRight, LogIn, Clock, X, LogOut } from "lucide-react";
 import Link from "next/link";
 import { auth, googleProvider, db } from "@/firebase";
-import { signInWithPopup, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export default function ProfilePage() {
@@ -16,6 +16,24 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Tangani hasil kembalian dari Login Google Redirect
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result?.user) {
+          const user = result.user;
+          const userDocRef = doc(db, "users", user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (!userDoc.exists()) {
+            setTempName(user.displayName || "");
+            setShowNameModal(true);
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error redirect login:", error);
+      });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setCurrentUser(user);
@@ -27,7 +45,6 @@ export default function ProfilePage() {
           setUserName(data.displayName || user.displayName || "User Pakcik");
           setIsVip(data.isVip || false);
         } else {
-          // Jika pengguna baru pertama kali login Google, minta set nama
           setTempName(user.displayName || "");
           setShowNameModal(true);
         }
@@ -41,14 +58,13 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, []);
 
-  // Trigger Pop-Up Google Login Asli
   const handleGoogleLogin = async () => {
     try {
       setLoading(true);
-      await signInWithPopup(auth, googleProvider);
+      await signInWithRedirect(auth, googleProvider);
     } catch (error) {
       console.error("Gagal login Google:", error);
-      alert("Gagal terhubung ke Google. Pastikan domain sudah diizinkan di Firebase.");
+      alert("Gagal terhubung ke Google.");
     } finally {
       setLoading(false);
     }
@@ -126,7 +142,7 @@ export default function ProfilePage() {
           className="mt-6 w-full flex items-center justify-center gap-2 bg-white text-black font-bold py-3 rounded-full hover:bg-gray-200 transition disabled:opacity-50"
         >
           <LogIn size={20} />
-          {loading ? "Menghubungkan..." : "Masuk dengan Google"}
+          {loading ? "Menghubungkan Google..." : "Masuk dengan Google"}
         </button>
       ) : (
         <button 
@@ -163,7 +179,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* POP-UP SET NAMA SETELAH GOOGLE LOGIN SUKSES */}
+      {/* POP-UP SET NAMA */}
       {showNameModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gray-900 w-full max-w-sm rounded-2xl p-6 border border-gray-800">

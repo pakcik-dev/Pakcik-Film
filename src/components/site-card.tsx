@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { Copy, ExternalLink, Flag, Check, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import type { Site } from "@/lib/types";
 import { normalizeAsset, cn } from "@/lib/utils";
 import { addRecent } from "./recently-visited";
@@ -23,7 +23,6 @@ function statusColor(status?: Site["status"]) {
 }
 
 export function SiteCard({ site, categoryId }: Props) {
-  const [copied, setCopied] = useState(false);
   const [imgError, setImgError] = useState(false);
   const { has, toggle, mounted } = useFavorites();
   const starred = mounted && has(site.url);
@@ -36,16 +35,6 @@ export function SiteCard({ site, categoryId }: Props) {
     const rect = el.getBoundingClientRect();
     el.style.setProperty("--mx", `${e.clientX - rect.left}px`);
     el.style.setProperty("--my", `${e.clientY - rect.top}px`);
-  }
-
-  async function copyUrl(e: React.MouseEvent | React.KeyboardEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(site.url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1200);
-    } catch {}
   }
 
   function star(e: React.MouseEvent) {
@@ -126,23 +115,6 @@ export function SiteCard({ site, categoryId }: Props) {
       >
         <Star size={14} fill={starred ? "currentColor" : "none"} strokeWidth={2} />
       </button>
-
-      {/* Secondary actions (bottom-right) — always visible on touch, hover on desktop */}
-      <div
-        className={cn(
-          "absolute bottom-1.5 right-1.5 z-10 flex gap-1",
-          "opacity-100 md:opacity-0 md:transition-opacity md:group-hover:opacity-100",
-        )}
-      >
-        <button
-          type="button"
-          aria-label={copied ? "Copied" : "Copy URL"}
-          onClick={copyUrl}
-          className="grid h-6 w-6 place-items-center rounded-md bg-[var(--bg-elev)]/70 text-[var(--fg-muted)] backdrop-blur hover:text-[var(--fg)]"
-        >
-          {copied ? <Check size={11} /> : <Copy size={11} />}
-        </button>
-      </div>
 
       <div className="relative flex h-14 w-full items-center justify-center px-4">
         {imgError ? (
