@@ -25,7 +25,7 @@ export function SafetyToast() {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-40 w-[min(500px,calc(100vw-2rem))] -translate-x-1/2 rounded-xl border border-gray-800 bg-gray-950/95 p-4 shadow-xl backdrop-blur-md text-white">
+    <div className="fixed bottom-20 left-1/2 z-40 w-[min(500px,calc(100vw-2rem))] -translate-x-1/2 rounded-xl border border-gray-800 bg-gray-950/95 p-4 shadow-xl backdrop-blur-md text-white">
       <button 
         onClick={dismiss} 
         aria-label="Tutup"
@@ -74,4 +74,4 @@ export function SafetyToast() {
       </div>
     </div>
   );
-}
+}``

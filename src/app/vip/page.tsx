@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Ban, Lock, Shirt, CheckCircle2, X } from "lucide-react";
+import { ArrowLeft, Ban, Lock, Shirt, CheckCircle2, QrCode, Wallet, CreditCard } from "lucide-react";
 import Link from "next/link";
 
 export default function VipPage() {
   const [selectedPlan, setSelectedPlan] = useState("week");
+  const [paymentMethod, setPaymentMethod] = useState("qris");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const plans = [
     { id: "week", duration: "per minggu", price: "Rp 10.000", originalPrice: "Rp 12.000", badge: "20% off" },
@@ -16,29 +16,26 @@ export default function VipPage() {
     { id: "year", duration: "per tahun", price: "Rp 230.000", originalPrice: "Rp 280.000", badge: "20% off" },
   ];
 
-  const handlePay = () => {
-    setShowPaymentModal(true);
-    // Simulasi loading 3 detik lalu sukses bayar
-    setTimeout(() => {
-      setPaymentSuccess(true);
-    }, 3000);
-  };
-
   return (
-    <div className="min-h-screen bg-black text-white p-4 font-sans pb-20">
-      {/* ... BAGIAN ATAS TETAP SAMA (Header, Pilihan Paket, Keuntungan) ... */}
-      
-      {/* Cukup copas DARI SINI ke bawah untuk mengganti tombol lamanya */}
+    <div className="min-h-screen bg-black text-white p-4 font-sans pb-32">
       <Link href="/me" className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6">
         <ArrowLeft size={24} />
       </Link>
 
-      <div className="mb-6"><h1 className="text-2xl font-bold leading-tight">Nikmati nonton<br />Tanpa Iklan<br />dengan VIP PAKCIK FILM</h1></div>
-      <p className="text-sm font-semibold text-gray-400 mb-3">Pilih paketmu</p>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold leading-tight">Nikmati nonton<br />Tanpa Iklan<br />dengan VIP PAKCIK FILM</h1>
+      </div>
 
+      <p className="text-sm font-semibold text-gray-400 mb-3">1. Pilih paketmu</p>
       <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
         {plans.map((plan) => (
-          <div key={plan.id} onClick={() => setSelectedPlan(plan.id)} className={`min-w-[130px] p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${selectedPlan === plan.id ? "border-purple-500 bg-purple-950/40 text-purple-200" : "border-gray-800 bg-gray-900 text-gray-400"}`}>
+          <div 
+            key={plan.id} 
+            onClick={() => setSelectedPlan(plan.id)} 
+            className={`min-w-[130px] p-3 rounded-xl border cursor-pointer transition-all flex flex-col justify-between ${
+              selectedPlan === plan.id ? "border-purple-500 bg-purple-950/40 text-purple-200" : "border-gray-800 bg-gray-900 text-gray-400"
+            }`}
+          >
             <div>
               <p className="text-xs text-gray-400 mb-2">{plan.duration}</p>
               <p className="text-base font-bold text-white mb-1">{plan.price}</p>
@@ -49,41 +46,79 @@ export default function VipPage() {
         ))}
       </div>
 
-      <div className="mt-8">
-        <h2 className="text-base font-bold text-gray-200 mb-4">Keuntungan Premium</h2>
-        <div className="grid grid-cols-3 gap-4 text-center">
-          <div className="flex flex-col items-center gap-2"><div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-purple-400"><Ban size={24} /></div><span className="text-xs text-gray-300">Bebas Iklan</span></div>
-          <div className="flex flex-col items-center gap-2"><div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-purple-400"><Lock size={24} /></div><span className="text-xs text-gray-300">Buka Semua</span></div>
-          <div className="flex flex-col items-center gap-2"><div className="w-12 h-12 rounded-full bg-gray-900 flex items-center justify-center text-purple-400"><Shirt size={24} /></div><span className="text-xs text-gray-300">Fitur Ubah Gaya</span></div>
+      {/* METODE PEMBAYARAN */}
+      <p className="text-sm font-semibold text-gray-400 mt-6 mb-3">2. Pilih Metode Pembayaran</p>
+      <div className="space-y-3">
+        <div 
+          onClick={() => setPaymentMethod("qris")}
+          className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer ${
+            paymentMethod === "qris" ? "border-purple-500 bg-purple-950/30" : "border-gray-800 bg-gray-900"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <QrCode size={22} className="text-purple-400" />
+            <div>
+              <p className="text-sm font-bold">QRIS (All E-Wallet & Bank)</p>
+              <p className="text-[10px] text-gray-400">GoPay, OVO, DANA, ShopeePay, BCA, dll</p>
+            </div>
+          </div>
+          {paymentMethod === "qris" && <CheckCircle2 size={18} className="text-purple-400" />}
+        </div>
+
+        <div 
+          onClick={() => setPaymentMethod("gopay")}
+          className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer ${
+            paymentMethod === "gopay" ? "border-purple-500 bg-purple-950/30" : "border-gray-800 bg-gray-900"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <Wallet size={22} className="text-blue-400" />
+            <div>
+              <p className="text-sm font-bold">Transfer Virtual Account</p>
+              <p className="text-[10px] text-gray-400">BCA, Mandiri, BRI, BNI</p>
+            </div>
+          </div>
+          {paymentMethod === "gopay" && <CheckCircle2 size={18} className="text-purple-400" />}
         </div>
       </div>
 
-      {/* TOMBOL PEMBAYARAN BARU */}
       <button 
-        onClick={handlePay}
+        onClick={() => setShowPaymentModal(true)}
         className="w-full mt-8 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-full transition shadow-lg shadow-purple-900/40"
       >
-        Lanjutkan Pembayaran
+        Bayar Sekarang
       </button>
 
-      {/* POP-UP PEMBAYARAN */}
+      {/* POP-UP INSTRUKSI / INSTRUMEN BAYAR (Siap disambung ke Midtrans API) */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-gray-900 w-full max-w-sm rounded-2xl p-6 border border-gray-800 flex flex-col items-center text-center">
-            {paymentSuccess ? (
-              <>
-                <CheckCircle2 size={60} className="text-emerald-500 mb-4 animate-bounce" />
-                <h2 className="text-xl font-bold text-white mb-2">Pembayaran Berhasil!</h2>
-                <p className="text-sm text-gray-400 mb-6">Akun Anda sekarang adalah VIP.</p>
-                <button onClick={() => setShowPaymentModal(false)} className="w-full bg-white text-black font-bold py-3 rounded-full">Selesai</button>
-              </>
+            <h2 className="text-lg font-bold text-white mb-2">Instruksi Pembayaran</h2>
+            <p className="text-xs text-gray-400 mb-4">
+              {paymentMethod === "qris" ? "Scan Kode QRIS di bawah menggunakan E-Wallet Anda:" : "Transfer ke Virtual Account berikut:"}
+            </p>
+
+            {paymentMethod === "qris" ? (
+              <div className="bg-white p-4 rounded-xl mb-4">
+                <div className="w-48 h-48 bg-gray-200 rounded flex items-center justify-center text-black font-bold text-xs text-center p-2 border-2 border-dashed border-gray-400">
+                  [ Kode QRIS Midtrans/Xendit Akan Muncul Di Sini ]
+                </div>
+              </div>
             ) : (
-              <>
-                <h2 className="text-lg font-bold text-white mb-2">Menunggu Pembayaran</h2>
-                <p className="text-sm text-gray-400 mb-6">Silakan selesaikan pembayaran via E-Wallet / QRIS Anda.</p>
-                <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-              </>
+              <div className="w-full bg-gray-800 p-3 rounded-xl mb-4 text-left">
+                <p className="text-[10px] text-gray-400">Nomor Virtual Account BCA:</p>
+                <p className="text-lg font-mono font-bold text-yellow-400">880123918239182</p>
+              </div>
             )}
+
+            <p className="text-[10px] text-gray-500 mb-6">Sistem akan memverifikasi pembayaran secara otomatis setelah Anda mentransfer.</p>
+
+            <button 
+              onClick={() => setShowPaymentModal(false)}
+              className="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 rounded-full text-xs"
+            >
+              Tutup / Batalkan
+            </button>
           </div>
         </div>
       )}
