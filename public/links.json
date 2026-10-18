@@ -285,7 +285,7 @@
         }
       ]
     },
-{
+    {
       "id": "donghua",
       "name": "Donghua",
       "sites": [
@@ -308,12 +308,12 @@
           "url": "https://animekhor.org/anime/b-king/",
           "logo": "./logo/donghua/animekhor.png",
           "enabled": true,
-        "status": "new"
-      }
-    ]
-  },
-  {
-    "id": "livetv",
+          "status": "new"
+        }
+      ]
+    },
+    {
+      "id": "livetv",
       "name": "Live TV & Sports",
       "sites": [
         {
@@ -387,7 +387,7 @@
         },
         {
           "name": "RiveStream Sports",
-          "url": "https://rivestream.ru/livesports/",
+          "url": "https://www.rivestream.app/",
           "logo": "./logo/movies_shows/rivestream.png",
           "enabled": true
         },
