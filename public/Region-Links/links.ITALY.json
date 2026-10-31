@@ -38,7 +38,7 @@
       "sites": [
         {
           "name": "animeunity",
-          "url": "https://www.animeunity.so",
+          "url": "https://www.animeunity.co/",
           "logo": "./logo/anime/animeunity.png",
           "status": "new",
           "enabled": true
