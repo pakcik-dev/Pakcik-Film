@@ -118,7 +118,7 @@
         },
         {
           "name": "popcorn",
-          "url": "https://popcornmovies.ac/",
+          "url": "https://popcornmovies.st/",
           "logo": "./logo/movies_shows/popcornmovies.png",
           "enabled": true
         },
